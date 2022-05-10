@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.api.Mapper.DemoMapper">
+    <select id="test1" resultType="com.example.demo.api.DemoDTO.DemoDTO">
+        SELECT *
+        FROM student s ;
+    </select>
+
+    <insert id="test2" parameterType="hashMap">
+        INSERT INTO student
+        (name,
+         subject)
+        VALUES
+            (#{name},
+             #{subject}
+            )
+    </insert>
+
+    <update id="test3" parameterType="hashMap">
+        UPDATE student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name !=null">
+                name = #{name},
+            </if>
+            <if test="subject !=null">
+                subject = #{subject},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 로그인 -->
+    <select id="getUserAccount" resultType="com.example.demo.api.VO.ProfileVO">
+        SELECT * FROM Profile
+        WHERE email= #{email}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="saveUser" parameterType="com.example.demo.api.VO.ProfileVO">
+        INSERT INTO Profile
+                    (email,
+                     password,
+                     nickname,
+                     auth,
+                     coin,
+                     `character`,
+                     last_character)
+            VALUES(#{email},
+                   #{password},
+                   #{nickname},
+                   #{auth},
+                   #{coin},
+                   #{character},
+                   #{last_character});
+    </insert>
+
+    <update id="saveGame" parameterType="com.example.demo.api.VO.ProfileVO">
+        UPDATE Profile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="email !=null">
+                email = #{email},
+            </if>
+            <if test="password !=null">
+                password = #{password},
+            </if>
+            <if test="nickname !=null">
+                nickname = #{nickname},
+            </if>
+            <if test="coin !=null">
+                coin = #{coin},
+            </if>
+            <if test="character !=null">
+                `character` = #{character},
+            </if>
+            <if test="last_character !=null">
+                last_character = #{last_character},
+            </if>
+        </trim>
+        WHERE pid = #{pid}
+    </update>
+</mapper>
