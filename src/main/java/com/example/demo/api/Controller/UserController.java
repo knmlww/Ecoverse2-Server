@@ -90,6 +90,7 @@ public class UserController {
         dataMap.put("last_character", profileVO.getLast_character());
         //model.addAttribute("info", userVo.getUserId() +"의 "+ userVo.getUserName()+ "님");      //유저 아이디
         //return "user_access";
+        //jenkins Test
         return dataMap;
 
     }
