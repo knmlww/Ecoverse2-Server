@@ -1,5 +1,6 @@
 package com.example.demo.api.Controller;
 
+import com.example.demo.Socket.Config.WebSocketConfigImpl;
 import com.example.demo.api.DemoDTO.DemoDTO;
 import com.example.demo.api.Service.DemoService;
 import com.example.demo.api.VO.paramVO;
@@ -8,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ import java.util.Map;
 public class DemoController {
     @Autowired
     private DemoService demoService;
+
+    private WebSocketConfigImpl webSocketConfig;
 
     @Autowired  // spring 4.3 버전 이상부터는 생략 가능
     public DemoController(DemoService demoService) {
@@ -33,6 +39,9 @@ public class DemoController {
     public Object test1() throws Exception {
         return demoService.test1();
     }
+
+
+
     /**
      * DB insert 메서드
      * @param param

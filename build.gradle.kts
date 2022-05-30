@@ -31,10 +31,12 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:2.0.3")
     implementation("mysql:mysql-connector-java:8.0.28")
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2")
-    implementation("org.projectlombok:lombok:1.18.10")
+  //  implementation("org.projectlombok:lombok:1.18.10")
     implementation ("org.springframework.boot:spring-boot-starter-security:2.6.7")
     implementation ("org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE")
     implementation("com.google.protobuf:protobuf-java:3.14.0");
+    compileOnly("org.projectlombok:lombok:1.18.10");
+    annotationProcessor("org.projectlombok:lombok:1.18.10");
 
 
 

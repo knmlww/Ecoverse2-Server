@@ -12,7 +12,8 @@
 
 	var ws;
 	function connectWs() {
-		ws = new WebSocket('ws://' + location.host + '/chat');
+		ws = new WebSocket('ws://' + location.host + '/city');
+
 		ws.onmessage = function(data) {
 		console.dir(data);
 			console.log(data.data);

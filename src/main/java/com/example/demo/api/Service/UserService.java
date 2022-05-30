@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService{
     @Override
     public ProfileVO loadUserByUsername(String email) throws UsernameNotFoundException {
         //여기서 받은 유저 패스워드와 비교하여 로그인 인증
-        ProfileVO profileVo = demoMapper.getUserAccount(email);
+    ProfileVO profileVo = demoMapper.getUserAccount(email);
         System.out.println("password is "+profileVo.getPassword());
         if (profileVo == null){
             System.out.println("ERROR");

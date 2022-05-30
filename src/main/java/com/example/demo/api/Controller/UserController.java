@@ -18,8 +18,8 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @ResponseBody
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     /**
      * localhost:8080 시 login 으로 redirect
