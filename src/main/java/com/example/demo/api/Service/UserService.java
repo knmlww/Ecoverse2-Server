@@ -25,10 +25,6 @@ public class UserService implements UserDetailsService{
 
     @Transactional
     public void joinUser(ProfileVO profileVo){
-        profileVo.setAuth("USER");
-        profileVo.setCoin(0);
-        profileVo.setCharacter(0);
-        profileVo.setLast_character(0);
         demoMapper.saveUser(profileVo);
     }
 
@@ -36,6 +32,7 @@ public class UserService implements UserDetailsService{
     public ProfileVO loadUserByUsername(String email) throws UsernameNotFoundException {
         //여기서 받은 유저 패스워드와 비교하여 로그인 인증
     ProfileVO profileVo = demoMapper.getUserAccount(email);
+    profileVo.setAuth("USER");
         System.out.println("password is "+profileVo.getPassword());
         if (profileVo == null){
             System.out.println("ERROR");

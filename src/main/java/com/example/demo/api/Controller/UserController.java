@@ -85,9 +85,9 @@ public class UserController {
         dataMap.put("email", profileVO.getUsername());
         dataMap.put("password", profileVO.getPassword());
         dataMap.put("nickname", profileVO.getUserName());
-        dataMap.put("coin", profileVO.getCoin());
-        dataMap.put("character", profileVO.getCharacter());
-        dataMap.put("last_character", profileVO.getLast_character());
+   //     dataMap.put("coin", profileVO.getCoin());
+     //   dataMap.put("character", profileVO.getCharacter());
+       // dataMap.put("last_character", profileVO.getLast_character());
         //model.addAttribute("info", userVo.getUserId() +"의 "+ userVo.getUserName()+ "님");      //유저 아이디
         //return "user_access";
         //jenkins Test
