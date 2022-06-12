@@ -3,13 +3,17 @@
 
 <mapper namespace="com.example.demo.api.Mapper.DemoMapper">
     <!-- 로그인 -->
-    <select id="getUserAccount" resultType="com.example.demo.api.VO.ProfileVO">
+    <select id="getUserAccount" resultType="com.example.demo.api.VO.Profile.ProfileVO">
         SELECT * FROM TB_PROFILE
         WHERE email= #{email}
     </select>
 
+    <select id="checkEmail" resultType="int" parameterType="String">
+        select EXISTS (
+            select EMAIL from TB_PROFILE where EMAIL=#{paramEmail} limit 1) as checkEmail;
+    </select>
     <!-- 회원가입 -->
-    <insert id="saveUser" parameterType="com.example.demo.api.VO.ProfileVO">
+    <insert id="saveUser" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
         INSERT INTO TB_PROFILE
                     (
                      email,
@@ -22,7 +26,7 @@
                    );
     </insert>
 
-    <update id="saveGame" parameterType="com.example.demo.api.VO.ProfileVO">
+    <update id="saveGame" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
         UPDATE TB_PROFILE
         <trim prefix="SET" suffixOverrides=",">
             <if test="email !=null">
@@ -37,4 +41,16 @@
         </trim>
         WHERE pid = #{pid}
     </update>
+
+    <delete id="withdrawMembership" parameterType="String">
+        DELETE
+        FROM `TB_PROFILE`
+        WHERE PID = #{pid};
+    </delete>
+
+    <select id="downloadOneMember" resultType="com.example.demo.api.VO.Profile.ProfileVO">
+        SELECT *
+        FROM `TB_PROFILE`
+        WHERE PID = #{pid};
+    </select>
 </mapper>

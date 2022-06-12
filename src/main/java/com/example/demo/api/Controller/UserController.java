@@ -1,9 +1,8 @@
 package com.example.demo.api.Controller;
 
 import com.example.demo.api.Service.UserService;
-import com.example.demo.api.VO.ProfileVO;
+import com.example.demo.api.VO.Profile.ProfileVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,9 +63,7 @@ public class UserController {
      */
     @PostMapping("/signUp")
     public String signUp(@RequestBody ProfileVO profileVo) {
-
-        userService.joinUser(profileVo);
-        return "redirect:/login";
+        return userService.joinUser(profileVo);
     }
 
     /**
@@ -101,8 +98,30 @@ public class UserController {
      * @return 1
      */
     @PostMapping("/saveGame")
-    public Object saveGame(@RequestBody ProfileVO profileVO) {
-        return userService.saveGame(profileVO);
+    public Object saveGame(@RequestBody ProfileVO profileVo) {
+        return userService.saveGame(profileVo);
 
     }
+    /**
+     * 회원탈퇴
+     * @param profileVO
+     * @return 1
+     */
+    @PostMapping("/withdraw_membership")
+    public int withdrawMembership(@RequestBody ProfileVO profileVo) {
+        return userService.withdrawMembership(profileVo);
+
+    }
+    /**
+     * 프로필 정보 불러오기
+     * @param profileVO
+     * @return profileVO
+     */
+    @PostMapping("/download_one_member")
+    public Object downloadOneMember(@RequestBody ProfileVO profileVo) {
+        return userService.downloadOneMember(profileVo);
+    }
+
+
+
 }

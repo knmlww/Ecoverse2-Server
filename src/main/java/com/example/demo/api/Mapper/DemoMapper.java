@@ -1,7 +1,7 @@
 package com.example.demo.api.Mapper;
 
 import com.example.demo.api.DemoDTO.DemoDTO;
-import com.example.demo.api.VO.ProfileVO;
+import com.example.demo.api.VO.Profile.ProfileVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +23,10 @@ public interface DemoMapper{
     void saveUser(ProfileVO profileVo);
 
     int saveGame(ProfileVO profileVO);
+
+    int checkEmail(String paramEmail);
+
+    int withdrawMembership(String pid);
+
+    ProfileVO downloadOneMember(String pid);
 }

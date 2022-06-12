@@ -1,4 +1,4 @@
-package com.example.demo.api.VO;
+package com.example.demo.api.VO.Profile;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,7 +53,7 @@ public class ProfileVO implements UserDetails {
     private String VEHICLE_UNLOCK;
 
 
-    private String auth;
+    private String auth = "USER";
 
 
     @Override

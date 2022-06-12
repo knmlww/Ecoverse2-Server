@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @EnableWebSecurity        //spring security 를 적용한다는 Annotation
 @RequiredArgsConstructor
@@ -40,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginProcessingUrl("/login_proc")
                 .defaultSuccessUrl("/user_access")
-                .failureUrl("/access_denied") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
+                .failureHandler(authenticationFailureHandler())
+           //     .failureUrl("/access_denied") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
                 .and()
                 .csrf().disable();		//로그인 창
     }
@@ -54,6 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);//.passwordEncoder(new BCryptPasswordEncoder());
     }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
 
     @Bean
     public PasswordEncoder NoOpPasswordEncoder(){
