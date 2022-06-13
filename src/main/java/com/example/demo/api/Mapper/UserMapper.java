@@ -1,6 +1,6 @@
 package com.example.demo.api.Mapper;
 
-import com.example.demo.api.VO.ProfileVO;
+import com.example.demo.api.VO.Profile.ProfileVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

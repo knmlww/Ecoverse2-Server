@@ -1,4 +1,4 @@
-package com.example.demo.api.config;
+package com.example.demo.api.SecurityHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;

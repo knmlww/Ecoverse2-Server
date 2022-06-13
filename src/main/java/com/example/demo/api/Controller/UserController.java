@@ -1,6 +1,10 @@
 package com.example.demo.api.Controller;
 
 import com.example.demo.api.Service.UserService;
+import com.example.demo.api.VO.City.CityVO;
+import com.example.demo.api.VO.Map.MapVO;
+import com.example.demo.api.VO.Notification.NotiVO;
+import com.example.demo.api.VO.Profile.ProfileResponse;
 import com.example.demo.api.VO.Profile.ProfileVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,87 +27,38 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * localhost:8080 시 login 으로 redirect
+     * 서버 정상 작동여부 확인
      * @return
      */
-    @GetMapping
-    public String root() {
-        return "redirect:/login";
-    }
-
-    /**
-     * 로그인 폼
-     * @return
-     */
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    /**
-     * 회원가입 폼
-     * @return
-     */
-    @GetMapping("/signUp")
-    public String signUpForm() {
-        return "signUp";
-    }
-
-    /**
-     * 로그인 실패 폼
-     * @return
-     */
-    @GetMapping("/access_denied")
-    public String accessDenied() {
-        return "access_denied";
+    @PostMapping("/server_status")
+    public String serverStatus() {
+        return "SERVER_OK";
     }
 
     /**
      * 회원가입 진행
      * @param profileVo
-     * @return
+     * @return String
      */
-    @PostMapping("/signUp")
+    @PostMapping("/register")
     public String signUp(@RequestBody ProfileVO profileVo) {
         return userService.joinUser(profileVo);
     }
 
     /**
      * 유저 페이지
-     * @param model
      * @param authentication
+     * @param String
      * @return
      */
     @GetMapping("/user_access")
-    public Object userAccess(Model model, Authentication authentication) {
+    public String userAccess(Model model, Authentication authentication) {
         //Authentication 객체를 통해 유저 정보를 가져올 수 있다.
         ProfileVO profileVO = (ProfileVO) authentication.getPrincipal();  //userDetail 객체를 가져옴
-
-        HashMap<String,Object> dataMap = new HashMap<>();
-        dataMap.put("pid", profileVO.getPid());
-        dataMap.put("email", profileVO.getUsername());
-        dataMap.put("password", profileVO.getPassword());
-        dataMap.put("nickname", profileVO.getUserName());
-   //     dataMap.put("coin", profileVO.getCoin());
-     //   dataMap.put("character", profileVO.getCharacter());
-       // dataMap.put("last_character", profileVO.getLast_character());
-        //model.addAttribute("info", userVo.getUserId() +"의 "+ userVo.getUserName()+ "님");      //유저 아이디
-        //return "user_access";
-        //jenkins Test
-        return dataMap;
+        return "LOGIN_SUCCESS/PID:"+profileVO.getPid();
 
     }
 
-    /**
-     * 유저 정보 저장
-     * @param profileVO
-     * @return 1
-     */
-    @PostMapping("/saveGame")
-    public Object saveGame(@RequestBody ProfileVO profileVo) {
-        return userService.saveGame(profileVo);
-
-    }
     /**
      * 회원탈퇴
      * @param profileVO
@@ -117,11 +74,68 @@ public class UserController {
      * @param profileVO
      * @return profileVO
      */
-    @PostMapping("/download_one_member")
-    public Object downloadOneMember(@RequestBody ProfileVO profileVo) {
-        return userService.downloadOneMember(profileVo);
+    @PostMapping("/load_profile")
+    public ProfileResponse loadProfile(@RequestBody ProfileVO profileVo) {
+        return userService.loadProfile(profileVo);
     }
 
+    /**
+     * 프로필 정보 업로드
+     * @param profileVO
+     * @return 1
+     */
+    @PostMapping("/upload_profile")
+    public int uploadProfile(@RequestBody ProfileVO profileVo) throws Exception{
+        return userService.uploadProfile(profileVo);
+    }
 
+    /**
+     * 도시 정보 불러오기
+     * @param CityVO
+     * @return CityVO
+     */
+    @PostMapping("/load_city")
+    public CityVO loadCity(@RequestBody CityVO CityVo) {
+        return userService.loadCity(CityVo);
+    }
 
+    /**
+     * 도시 정보 업로드
+     * @param CityVO
+     * @return 1
+     */
+    @PostMapping("/upload_city")
+    public int uploadCity(@RequestBody CityVO CityVo) {
+        return userService.uploadCity(CityVo);
+    }
+
+    /**
+     * 맵 정보 불러오기
+     * @param MapVO
+     * @return MapVO
+     */
+    @PostMapping("/load_map")
+    public MapVO loadMap(@RequestBody MapVO MapVo) {
+        return userService.loadMap(MapVo);
+    }
+
+    /**
+     * 맵 정보 업로드
+     * @param MapVO
+     * @return 1
+     */
+    @PostMapping("/upload_map")
+    public int uploadMap(@RequestBody MapVO MapVo) {
+        return userService.uploadMap(MapVo);
+    }
+
+    /**
+     * 알림 리스트 불러오기
+     * @param NotiVO
+     * @return NotiVO
+     */
+    @PostMapping("/load_noti_list")
+    public List<Map<String, Object>> loadNotiList(@RequestBody NotiVO NotiListVo) {
+        return userService.loadNotiList(NotiListVo);
+    }
 }

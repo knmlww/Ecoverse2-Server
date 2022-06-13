@@ -15,15 +15,44 @@
     <!-- 회원가입 -->
     <insert id="saveUser" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
         INSERT INTO TB_PROFILE
-                    (
-                     email,
-                     password,
-                     nickname)
-            VALUES(
-                   #{email},
-                   #{password},
-                   #{nickname}
-                   );
+        (EMAIL,
+         PASSWORD,
+         NICKNAME,
+         `NAME`,
+         MODEL,
+         PLAYER_TIMEZONE,
+         MAIN_MISSON,
+         SUB_MISSON,
+         LAST_POS,
+         LAST_CITY,
+         BALANCE,
+         BADGE_STATE,
+         LICENSE_STATE,
+         INVENTORY,
+         IMPORT_INFO,
+         EXPORT_INFO,
+         ENERGY_IMPORT,
+         FUEL_INFO,
+         VEHICLE_UNLOCK)
+        VALUES (#{email},
+                #{password},
+                #{nickname},
+                #{name},
+                #{model},
+                #{player_timezone},
+                #{main_misson},
+                #{sub_misson},
+                #{last_pos},
+                #{last_city},
+                #{balance},
+                #{badge_state},
+                #{license_state},
+                #{inventory},
+                #{import_info},
+                #{export_info},
+                #{energy_import},
+                #{fuel_info},
+                #{vehicle_unlock});
     </insert>
 
     <update id="saveGame" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
@@ -48,9 +77,98 @@
         WHERE PID = #{pid};
     </delete>
 
-    <select id="downloadOneMember" resultType="com.example.demo.api.VO.Profile.ProfileVO">
+    <select id="loadProfile" resultType="com.example.demo.api.VO.Profile.ProfileResponse">
         SELECT *
         FROM `TB_PROFILE`
         WHERE PID = #{pid};
+    </select>
+
+    <update id="uploadProfile" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
+        UPDATE TB_PROFILE
+        SET
+        EMAIL = #{email},
+        PASSWORD = #{password},
+        NICKNAME = #{nickname},
+        `NAME`=#{name},
+        MODEL = #{model},
+        PLAYER_TIMEZONE = #{player_timezone},
+        PLAYER_LAST_UPTIME = #{player_last_uptime},
+        MAIN_MISSON = #{main_misson},
+        SUB_MISSON = #{sub_misson},
+        LAST_POS = #{last_pos},
+        LAST_CITY = #{last_city},
+        BALANCE = #{balance},
+        BADGE_STATE = #{badge_state},
+        LICENSE_STATE = #{license_state},
+        UPDATE_TIME = #{update_time},
+        INVENTORY = #{inventory},
+        IMPORT_INFO = #{import_info},
+        EXPORT_INFO = #{export_info},
+        ENERGY_IMPORT = #{energy_import},
+        FUEL_INFO = #{fuel_info},
+        VEHICLE_UNLOCK = #{vehicle_unlock}
+        WHERE PID = #{pid}
+    </update>
+
+    <select id="loadCity" resultType="com.example.demo.api.VO.City.CityVO">
+        SELECT *
+        FROM `TB_CITY`
+        WHERE PID = #{pid}
+    </select>
+
+    <update id="uploadCity" parameterType="com.example.demo.api.VO.City.CityVO">
+        UPDATE TB_CITY
+        SET
+            POPULATION=#{population},
+            HAPPY_INDEX=#{happy_index},
+            ECO_ELEC_ENERGY_INDEX=#{eco_elec_energy_index},
+            NON_ELEC_ENERGY_INDEX=#{non_elec_energy_index},
+            OIL_ENERGY_INDEX=#{oil_energy_index},
+            ENVI_SCORE=#{envi_score},
+            WATER_ENVI_SCORE=#{water_envi_score},
+            AIR_ENVI_SCORE=#{air_envi_score},
+            SOIL_ENVI_SCORE=#{soil_envi_score},
+            DUTY_TAX_RATE=#{duty_tax_rate},
+            INCOME_TAX_RATE=#{income_tax_rate},
+            DONATION_TOTAL=#{donation_total},
+            RANKING=#{ranking},
+            OIL_TRAFFIC_SCORE=#{oil_traffic_score},
+            ELEC_TRAFFIC_SCORE=#{elec_traffic_score},
+            SUBSIDY_SCORE=#{subsidy_score},
+            IMPORT_TOTAL=#{import_total},
+            EXPORT_TOTAL=#{export_total}
+        WHERE PID=#{pid}
+    </update>
+
+    <select id="loadMap" resultType="com.example.demo.api.VO.Map.MapVO">
+        SELECT *
+        FROM `TB_MAP`
+        WHERE PID=#{pid}
+    </select>
+
+    <update id="uploadMap" parameterType="com.example.demo.api.VO.Map.MapVO">
+        UPDATE `TB_MAP`
+        SET
+            `TRAFFIC_HUB_UNLOCK`=#{traffic_hub_unlock},
+            `FACTORY_LEVEL`=#{factory_level},
+            `FACTORY_INFO`=#{factory_info},
+            `ELEC_FACTORY_UNLOCK`=#{elec_factory_unlock},
+            `ELEC_FACTORY_INFO`=#{elec_factory_info},
+            `POWER_PLANT_UNLOCK`=#{power_plant_unlock},
+            `ESS_INFO`=#{ess_info},
+            `BUTTIPORT_UNLOCK`=#{buttiport_unlock},
+            `SUBSIDY_INFO`=#{subsidy_info},
+            `DECO_ITEM_POSITION`=#{deco_item_position},
+            `WESERAGE_UNLOCK`=#{weserage_unlock},
+            `FIBER_MACHINE_UNLOCK`=#{fiber_machine_unlock},
+            `FURANCE_UNLOCK`=#{furance_unlock},
+            `FURANCE_INFO`=#{furance_info}
+        WHERE PID = #{pid}
+    </update>
+
+    <select id="loadNotiList" resultType="hashmap">
+        SELECT *
+        FROM `TB_NOTI`
+        WHERE PID=#{pid};
     </select>
 </mapper>
