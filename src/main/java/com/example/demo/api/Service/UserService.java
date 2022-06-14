@@ -36,7 +36,11 @@ public class UserService implements UserDetailsService{
         String result = null;
         int checkEmail = demoMapper.checkEmail(paramEmail);
         if(checkEmail==0){
-            demoMapper.saveUser(profileVo);
+
+                demoMapper.saveUser(profileVo);
+                demoMapper.saveCity(profileVo.getPid());
+                demoMapper.saveMap(profileVo.getPid());
+
             result =  "SIGNUP_SUCCESS";
         } else if (checkEmail==1) {
             result =  "SIGNUP_FAIL_EMAIL";
@@ -81,6 +85,15 @@ public class UserService implements UserDetailsService{
     }
 
     /**
+     * 플레이어 모델 업데이트
+     * @param profileVO
+     * @return 1
+     */
+    public int updatePlayerModel(ProfileVO profileVo) {
+        return demoMapper.updatePlayerModel(profileVo);
+    }
+
+    /**
      * 도시 정보 불러오기
      * @param CityVO
      * @return CityVO
@@ -96,6 +109,10 @@ public class UserService implements UserDetailsService{
      */
     public int uploadCity(CityVO cityVo) {
         return demoMapper.uploadCity(cityVo);
+    }
+
+    public int updateDonation(CityVO cityVo) {
+        return demoMapper.updateDonation(cityVo);
     }
 
     /**
@@ -116,7 +133,21 @@ public class UserService implements UserDetailsService{
         return demoMapper.uploadMap(MapVo);
     }
 
+    /**
+     * 알림 리스트 불러오기
+     * @param NotiVO
+     * @return List
+     */
     public List<Map<String, Object>> loadNotiList(NotiVO notiListVo) {
         return demoMapper.loadNotiList(notiListVo);
+    }
+
+    /**
+     * 알림 세부내용 불러오기
+     * @param NotiVO
+     * @return NotiVO
+     */
+    public NotiVO loadNotiDetail(NotiVO notiListVo) {
+        return demoMapper.loadNotiDetail(notiListVo);
     }
 }

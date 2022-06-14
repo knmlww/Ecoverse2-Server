@@ -13,7 +13,7 @@
             select EMAIL from TB_PROFILE where EMAIL=#{paramEmail} limit 1) as checkEmail;
     </select>
     <!-- 회원가입 -->
-    <insert id="saveUser" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
+    <insert id="saveUser" parameterType="com.example.demo.api.VO.Profile.ProfileVO" useGeneratedKeys="true" keyProperty="pid">
         INSERT INTO TB_PROFILE
         (EMAIL,
          PASSWORD,
@@ -33,7 +33,8 @@
          EXPORT_INFO,
          ENERGY_IMPORT,
          FUEL_INFO,
-         VEHICLE_UNLOCK)
+         VEHICLE_UNLOCK,
+         PLAYER_LAST_UPTIME)
         VALUES (#{email},
                 #{password},
                 #{nickname},
@@ -52,7 +53,58 @@
                 #{export_info},
                 #{energy_import},
                 #{fuel_info},
-                #{vehicle_unlock});
+                #{vehicle_unlock},
+                NOW());
+        <selectKey keyProperty="pid" resultType="com.example.demo.api.VO.Profile.ProfileVO" order="AFTER">
+            select PID FROM TB_PROFILE WHERE email = #{email}
+        </selectKey>
+
+</insert>
+
+    <insert id="saveCity">
+        INSERT INTO `TB_CITY`
+            (`PID`,
+             `POPULATION`,
+             `HAPPY_INDEX`,
+             `ECO_ELEC_ENERGY_INDEX`,
+             `NON_ELEC_ENERGY_INDEX`,
+             `OIL_ENERGY_INDEX`,
+             `ENVI_SCORE`,
+             `WATER_ENVI_SCORE`,
+             `AIR_ENVI_SCORE`,
+             `SOIL_ENVI_SCORE`,
+             `DUTY_TAX_RATE`,
+             `INCOME_TAX_RATE`,
+             `DONATION_TOTAL`,
+             `RANKING`,
+             `OIL_TRAFFIC_SCORE`,
+             `ELEC_TRAFFIC_SCORE`,
+             `SUBSIDY_SCORE`,
+             `IMPORT_TOTAL`,
+             `EXPORT_TOTAL`
+             ) VALUES (#{pid}
+                       ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+
+    </insert>
+
+    <insert id="saveMap">
+        INSERT INTO `TB_MAP`(`PID`,
+                             `TRAFFIC_HUB_UNLOCK`,
+                             `FACTORY_LEVEL`,
+                             `FACTORY_INFO`,
+                             `ELEC_FACTORY_UNLOCK`,
+                             `ELEC_FACTORY_INFO`,
+                             `POWER_PLANT_UNLOCK`,
+                             `ESS_INFO`,
+                             `BUTTIPORT_UNLOCK`,
+                             `SUBSIDY_INFO`,
+                             `DECO_ITEM_POSITION`,
+                             `WESERAGE_UNLOCK`,
+                             `FIBER_MACHINE_UNLOCK`,
+                             `FURANCE_UNLOCK`,
+                             `FURANCE_INFO`
+                             ) VALUES (#{pid},
+                                       0,0,'0',0,'0',0,0,0,'0','0',0,0,0,'0')
     </insert>
 
     <update id="saveGame" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
@@ -110,6 +162,13 @@
         WHERE PID = #{pid}
     </update>
 
+    <update id="updatePlayerModel" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
+        UPDATE `TB_PROFILE`
+        SET
+            `MODEL`=#{model}
+        WHERE PID = #{pid}
+    </update>
+
     <select id="loadCity" resultType="com.example.demo.api.VO.City.CityVO">
         SELECT *
         FROM `TB_CITY`
@@ -138,6 +197,13 @@
             IMPORT_TOTAL=#{import_total},
             EXPORT_TOTAL=#{export_total}
         WHERE PID=#{pid}
+    </update>
+
+    <update id="updateDonation" parameterType="com.example.demo.api.VO.City.CityVO">
+        UPDATE `TB_CITY`
+        SET
+            `DONATION_TOTAL`=#{donation_total}
+        WHERE CID=#{cid};
     </update>
 
     <select id="loadMap" resultType="com.example.demo.api.VO.Map.MapVO">
@@ -170,5 +236,11 @@
         SELECT *
         FROM `TB_NOTI`
         WHERE PID=#{pid};
+    </select>
+
+    <select id="loadNotiDetail" resultType="com.example.demo.api.VO.Notification.NotiVO">
+        SELECT *
+        FROM `TB_NOTI`
+        WHERE NID=#{nid};
     </select>
 </mapper>

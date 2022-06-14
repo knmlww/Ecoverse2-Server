@@ -3,6 +3,8 @@ package com.example.demo.api.VO.Profile;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ProfileResponse {
     private String pid;
@@ -16,34 +18,35 @@ public class ProfileResponse {
 
     private String player_timezone;
 
-    private String PLAYER_LAST_UPTIME;
+    private String player_last_uptime;
 
-    private String MAIN_MISSON;
+    private String main_misson;
 
-    private String SUB_MISSON;
+    private String sub_misson;
 
-    private String LAST_POS;
+    private String last_pos;
 
-    private String LAST_CITY;
+    private String last_city;
 
-    private int BALANCE;
+    private int balance;
 
-    private String BADGE_STATE;
+    private String badge_state;
 
-    private String LICENSE_STATE;
+    private String license_state;
 
-    private String UPDATE_TIME;
+    private String update_time;
 
-    private String INVENTORY;
+    private String inventory;
 
-    private String IMPORT_INFO;
+    private String import_info;
 
-    private String EXPORT_INFO;
+    private String export_info;
 
-    private String ENERGY_IMPORT;
+    private String energy_import;
 
-    private String FUEL_INFO;
+    private String fuel_info;
 
-    private String VEHICLE_UNLOCK;
+    private String vehicle_unlock;
+
 
 }

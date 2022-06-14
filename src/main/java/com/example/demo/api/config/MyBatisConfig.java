@@ -11,6 +11,8 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -49,6 +51,14 @@ public class MyBatisConfig {
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mPath2));
         return sqlSessionFactoryBean.getObject();
     }
+
+    @Bean(name= "txManager")
+    public PlatformTransactionManager txManager(@Qualifier("dataSource") DataSource dataSource) {
+        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
+        dataSourceTransactionManager.setNestedTransactionAllowed(true); // nested
+        return dataSourceTransactionManager;
+    }
+
 
 
 

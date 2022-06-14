@@ -12,5 +12,9 @@ public class NotiVO {
 
     public String title;
 
+    public String content;
+
+    public String update_time;
+
 
 }

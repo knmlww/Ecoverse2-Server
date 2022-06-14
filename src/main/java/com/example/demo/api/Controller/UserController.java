@@ -48,8 +48,7 @@ public class UserController {
     /**
      * 유저 페이지
      * @param authentication
-     * @param String
-     * @return
+     * @return String
      */
     @GetMapping("/user_access")
     public String userAccess(Model model, Authentication authentication) {
@@ -61,7 +60,7 @@ public class UserController {
 
     /**
      * 회원탈퇴
-     * @param profileVO
+     * @param profileVo
      * @return 1
      */
     @PostMapping("/withdraw_membership")
@@ -71,7 +70,7 @@ public class UserController {
     }
     /**
      * 프로필 정보 불러오기
-     * @param profileVO
+     * @param profileVo
      * @return profileVO
      */
     @PostMapping("/load_profile")
@@ -81,12 +80,22 @@ public class UserController {
 
     /**
      * 프로필 정보 업로드
-     * @param profileVO
+     * @param profileVo
      * @return 1
      */
     @PostMapping("/upload_profile")
     public int uploadProfile(@RequestBody ProfileVO profileVo) throws Exception{
         return userService.uploadProfile(profileVo);
+    }
+
+    /**
+     * 플레이어 모델 업데이트
+     * @param profileVo
+     * @return 1
+     */
+    @PostMapping("/update_player_model")
+    public int updatePlayerModel(@RequestBody ProfileVO profileVo) throws Exception{
+        return userService.updatePlayerModel(profileVo);
     }
 
     /**
@@ -107,6 +116,16 @@ public class UserController {
     @PostMapping("/upload_city")
     public int uploadCity(@RequestBody CityVO CityVo) {
         return userService.uploadCity(CityVo);
+    }
+
+    /**
+     * 도시 기부금 업데이트
+     * @param CityVO
+     * @return 1
+     */
+    @PostMapping("/update_donation")
+    public int updateDonation(@RequestBody CityVO CityVo) {
+        return userService.updateDonation(CityVo);
     }
 
     /**
@@ -132,10 +151,20 @@ public class UserController {
     /**
      * 알림 리스트 불러오기
      * @param NotiVO
-     * @return NotiVO
+     * @return List
      */
     @PostMapping("/load_noti_list")
     public List<Map<String, Object>> loadNotiList(@RequestBody NotiVO NotiListVo) {
         return userService.loadNotiList(NotiListVo);
+    }
+
+    /**
+     * 알림 세부내용 불러오기
+     * @param NotiVO
+     * @return NotiVO
+     */
+    @PostMapping("/load_noti_detail")
+    public NotiVO loadNotiDetail (@RequestBody NotiVO NotiListVo) {
+        return userService.loadNotiDetail(NotiListVo);
     }
 }

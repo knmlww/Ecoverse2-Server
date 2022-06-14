@@ -25,7 +25,11 @@ public interface DemoMapper{
     ProfileVO getUserAccount(String email);
 
     // 회원가입
-    void saveUser(ProfileVO profileVo);
+    int saveUser(ProfileVO profileVo);
+
+    void saveCity(String pid);
+
+    void saveMap(String pid);
 
     int saveGame(ProfileVO profileVO);
 
@@ -37,13 +41,19 @@ public interface DemoMapper{
 
     int uploadProfile(ProfileVO profileVo);
 
+    int updatePlayerModel(ProfileVO profileVo);
+
     CityVO loadCity(CityVO cityVo);
 
     int uploadCity(CityVO cityVo);
+
+    int updateDonation(CityVO cityVo);
 
     MapVO loadMap(MapVO MapVo);
 
     int uploadMap(MapVO mapVo);
 
     List<Map<String, Object>>  loadNotiList(NotiVO notiListVo);
+
+    NotiVO loadNotiDetail(NotiVO notiListVo);
 }
