@@ -16,5 +16,7 @@ public class NotiVO {
 
     public String update_time;
 
+    public int is_read;
+
 
 }

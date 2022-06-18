@@ -2,7 +2,11 @@ package com.example.demo.api.Service;
 
 import com.example.demo.api.Mapper.DemoMapper;
 
+import com.example.demo.api.VO.City.CityDataRequest;
+import com.example.demo.api.VO.City.CityDataVO;
 import com.example.demo.api.VO.City.CityVO;
+import com.example.demo.api.VO.City.ListUpCity;
+import com.example.demo.api.VO.Friends.FriendVO;
 import com.example.demo.api.VO.Map.MapVO;
 import com.example.demo.api.VO.Notification.NotiVO;
 import com.example.demo.api.VO.Profile.ProfileResponse;
@@ -13,7 +17,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +38,7 @@ public class UserService implements UserDetailsService{
      * @param profileVo
      * @return String
      */
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     public String joinUser(ProfileVO profileVo){
         String paramEmail = profileVo.getEmail();
         String result = null;
@@ -94,6 +102,25 @@ public class UserService implements UserDetailsService{
     }
 
     /**
+     * 패스워드 초기화
+     * @param profileVo
+     * @return 1
+     */
+    public int passwordReset(@RequestBody ProfileVO profileVo) throws Exception{
+        return demoMapper.passwordReset(profileVo);
+    }
+
+    /**
+     * 도시 리스트업
+     * @param listUpCity
+     * @return List
+     */
+    public List<String> listUpCity(ListUpCity listUpCity) {
+
+        return demoMapper.listUpCity(listUpCity);
+
+    }
+    /**
      * 도시 정보 불러오기
      * @param CityVO
      * @return CityVO
@@ -111,8 +138,30 @@ public class UserService implements UserDetailsService{
         return demoMapper.uploadCity(cityVo);
     }
 
+    /**
+     * 도시 기부금 업데이트
+     * @param CityVO
+     * @return 1
+     */
     public int updateDonation(CityVO cityVo) {
         return demoMapper.updateDonation(cityVo);
+    }
+
+    /**
+     * 기간 도시 척도 데이터 업로드
+     * @param CityVO
+     * @return 1
+     */
+    public int uploadCityData(CityDataVO CityDataVo) {
+        return demoMapper.uploadCityData(CityDataVo);
+    }
+    /**
+     * 기간 도시 척도 데이터 불러오기
+     * @param CityVO
+     * @return 1
+     */
+    public List<Map<String, Object>> loadCityData(CityDataRequest cityDataRequest) {
+        return demoMapper.loadCityData(cityDataRequest);
     }
 
     /**
@@ -150,4 +199,72 @@ public class UserService implements UserDetailsService{
     public NotiVO loadNotiDetail(NotiVO notiListVo) {
         return demoMapper.loadNotiDetail(notiListVo);
     }
+
+    /**
+     * 알림 세부내용 저장
+     * @param NotiVO
+     * @return 1
+     */
+    public int uploadNotiDetail(NotiVO notiListVo) {
+        return demoMapper.uploadNotiDetail(notiListVo);
+    }
+
+    /**
+     * 알림 삭제
+     * @param NotiVO
+     * @return 1
+     */
+    public int deleteNoti(NotiVO notiListVo) {
+        return demoMapper.deleteNoti(notiListVo);
+    }
+
+    /**
+     * 알림 읽음 처리
+     * @param NotiVO
+     * @return 1
+     */
+    public int updateNotiIsread(NotiVO notiListVo) {
+        return demoMapper.updateNotiIsread(notiListVo);
+    }
+
+    /**
+     * 친구요청
+     * @param NotiVO
+     * @return 1
+     */
+    public int requestFriend(NotiVO notiListVo) {
+        return demoMapper.uploadNotiDetail(notiListVo);
+    }
+
+    /**
+     * 친구수락
+     * @param
+     * @return 1
+     */
+    @Transactional(rollbackFor = {Exception.class})
+    public int acceptFriend(FriendVO friendVo) {
+        int i = demoMapper.acceptFriend(friendVo);
+        int j = demoMapper.acceptFriend2(friendVo);
+        return i+j;
+    }
+
+    /**
+     * 친구삭제
+     * @param FriendVo
+     * @return int
+     */
+    @Transactional(rollbackFor = {Exception.class})
+    public int deleteFriend(FriendVO friendVo) {
+        int i = demoMapper.deleteFriend(friendVo);
+        int j = demoMapper.deleteFriend2(friendVo);
+
+        return i+j;
+    }
+
+    public List<Map<String, Object>> loadFriendList(FriendVO friendVo) {
+        return demoMapper.loadFriendList(friendVo);
+    }
+
+
+
 }

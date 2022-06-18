@@ -1,7 +1,11 @@
 package com.example.demo.api.Controller;
 
 import com.example.demo.api.Service.UserService;
+import com.example.demo.api.VO.City.CityDataRequest;
+import com.example.demo.api.VO.City.CityDataVO;
 import com.example.demo.api.VO.City.CityVO;
+import com.example.demo.api.VO.City.ListUpCity;
+import com.example.demo.api.VO.Friends.FriendVO;
 import com.example.demo.api.VO.Map.MapVO;
 import com.example.demo.api.VO.Notification.NotiVO;
 import com.example.demo.api.VO.Profile.ProfileResponse;
@@ -44,6 +48,7 @@ public class UserController {
     public String signUp(@RequestBody ProfileVO profileVo) {
         return userService.joinUser(profileVo);
     }
+
 
     /**
      * 유저 페이지
@@ -99,6 +104,26 @@ public class UserController {
     }
 
     /**
+     * 패스워드 초기화
+     * @param profileVo
+     * @return 1
+     */
+    @PostMapping("/password_reset")
+    public int passwordReset(@RequestBody ProfileVO profileVo) throws Exception{
+        return userService.passwordReset(profileVo);
+    }
+
+    /**
+     * 도시 리스트업
+     * @param listUpCity
+     * @return List
+     */
+    @PostMapping("/list_up_city")
+    public List<String> listUpCity(@RequestBody ListUpCity listUpCity) {
+        return userService.listUpCity(listUpCity);
+    }
+
+    /**
      * 도시 정보 불러오기
      * @param CityVO
      * @return CityVO
@@ -128,6 +153,25 @@ public class UserController {
         return userService.updateDonation(CityVo);
     }
 
+    /**
+     * 기간 도시 척도 데이터 업로드
+     * @param CityVO
+     * @return 1
+     */
+    @PostMapping("/upload_city_data")
+    public int uploadCityData(@RequestBody CityDataVO CityDataVo) {
+        return userService.uploadCityData(CityDataVo);
+    }
+
+    /**
+     * 기간 도시 척도 데이터 불러오기
+     * @param FriendVo
+     * @return List
+     */
+    @PostMapping("/load_city_data")
+    public List<Map<String, Object>> loadCityData(@RequestBody CityDataRequest cityDataRequest) {
+        return userService.loadCityData(cityDataRequest);
+    }
     /**
      * 맵 정보 불러오기
      * @param MapVO
@@ -166,5 +210,73 @@ public class UserController {
     @PostMapping("/load_noti_detail")
     public NotiVO loadNotiDetail (@RequestBody NotiVO NotiListVo) {
         return userService.loadNotiDetail(NotiListVo);
+    }
+
+    /**
+     * 알림 세부내용 저장
+     * @param NotiVO
+     * @return 1
+     */
+    @PostMapping("/upload_noti_detail")
+    public int uploadNotiDetail (@RequestBody NotiVO NotiListVo) {
+        return userService.uploadNotiDetail(NotiListVo);
+    }
+
+    /**
+     * 알림 삭제
+     * @param NotiVO
+     * @return 1
+     */
+    @PostMapping("/delete_noti")
+    public int deleteNoti (@RequestBody NotiVO NotiListVo) {
+        return userService.deleteNoti(NotiListVo);
+    }
+
+    /**
+     * 알림 읽음 처리
+     * @param NotiVO
+     * @return 1
+     */
+    @PostMapping("/update_noti_isread")
+    public int updateNotiIsread (@RequestBody NotiVO NotiListVo) {
+        return userService.updateNotiIsread(NotiListVo);
+    }
+
+    /**
+     * 친구요청
+     * @param NotiVO
+     * @return 1
+     */
+    @PostMapping("/request_friend")
+    public int requestFriend (@RequestBody NotiVO NotiListVo) {
+        return userService.requestFriend(NotiListVo);
+    }
+    /**
+     * 친구수락
+     * @param FriendVo
+     * @return 1
+     */
+    @PostMapping("/accept_friend")
+    public int acceptFriend (@RequestBody FriendVO FriendVo) {
+        return userService.acceptFriend(FriendVo);
+    }
+
+    /**
+     * 친구삭제
+     * @param FriendVo
+     * @return int
+     */
+    @PostMapping("/delete_friend")
+    public int deleteFriend  (@RequestBody FriendVO FriendVo) {
+        return userService.deleteFriend(FriendVo);
+    }
+    /**
+     * 친구 목록 불러오기
+     * @param FriendVo
+     * @return List
+     */
+    @PostMapping("/load_friend_list")
+    public List<Map<String, Object>> loadFriendList(@RequestBody FriendVO FriendVo) {
+        return userService.loadFriendList(FriendVo);
     }
 }

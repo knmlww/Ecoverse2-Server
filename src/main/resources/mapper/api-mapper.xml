@@ -169,6 +169,22 @@
         WHERE PID = #{pid}
     </update>
 
+    <update id="passwordReset" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
+        UPDATE `TB_PROFILE`
+        SET
+            `PASSWORD`=#{password}
+        WHERE PID = #{pid}
+    </update>
+
+    <select id="listUpCity" resultType="String" parameterType="com.example.demo.api.VO.City.ListUpCity">
+        SELECT
+            A.MID as mid
+        FROM `TB_MAP` A
+                 LEFT OUTER JOIN `TB_CITY` B
+                                 ON B.PID = A.PID
+        WHERE B.RANKING BETWEEN #{maxRanking} AND #{minRanking} LIMIT #{count};
+    </select>
+
     <select id="loadCity" resultType="com.example.demo.api.VO.City.CityVO">
         SELECT *
         FROM `TB_CITY`
@@ -206,6 +222,32 @@
         WHERE CID=#{cid};
     </update>
 
+    <insert id="uploadCityData" parameterType="com.example.demo.api.VO.City.CityDataVO">
+        INSERT INTO `TB_CITY_DATA`(
+                                   `CID`,
+                                   `TERM_TYPE`,
+                                   `DATA_TYPE`,
+                                   `DATA_RATE`,
+                                   `UPDATE_TIME`)
+        VALUES (#{cid},
+                #{term_type},
+                #{data_type},
+                #{data_rate},
+                NOW());
+    </insert>
+
+    <select id="loadCityData" resultType="hashmap">
+        SELECT `DATA_ID` as data_id,
+               `CID` as cid,
+               `TERM_TYPE` as term_type,
+               `DATA_TYPE` as data_type,
+               `DATA_RATE` as data_rate,
+               `UPDATE_TIME` as update_time
+        FROM TB_CITY_DATA
+        WHERE UPDATE_TIME BETWEEN DATE_ADD(NOW(), INTERVAL -#{duration} DAY ) AND NOW()
+          AND CID = #{cid}
+          AND DATA_TYPE = #{data_type};
+    </select>
     <select id="loadMap" resultType="com.example.demo.api.VO.Map.MapVO">
         SELECT *
         FROM `TB_MAP`
@@ -233,7 +275,14 @@
     </update>
 
     <select id="loadNotiList" resultType="hashmap">
-        SELECT *
+        SELECT
+            `NID` as nid,
+            `PID` as pid,
+            `NOTI_TYPE` as noti_type,
+            `TITLE` as title,
+            `CONTENT` as content,
+            `UPDATE_TIME` as update_time,
+            `IS_READ` as is_read
         FROM `TB_NOTI`
         WHERE PID=#{pid};
     </select>
@@ -242,5 +291,83 @@
         SELECT *
         FROM `TB_NOTI`
         WHERE NID=#{nid};
+    </select>
+
+    <insert id="uploadNotiDetail" parameterType="com.example.demo.api.VO.Notification.NotiVO">
+        INSERT INTO `TB_NOTI`
+            (
+             `PID`,
+             `NOTI_TYPE`,
+             `TITLE`,
+             `CONTENT`,
+             `IS_READ`,
+             `UPDATE_TIME`)
+        VALUES (#{pid},
+                #{noti_type},
+                #{title},
+                #{content},
+                #{is_read},
+                NOW());
+    </insert>
+
+    <delete id="deleteNoti" parameterType="com.example.demo.api.VO.Notification.NotiVO">
+        DELETE
+        FROM TB_NOTI
+        where NID = #{nid}
+    </delete>
+
+    <update id="updateNotiIsread" parameterType="com.example.demo.api.VO.Map.MapVO">
+        UPDATE `TB_NOTI`
+        SET
+            `IS_READ` = 1
+        WHERE NID = #{nid}
+    </update>
+
+    <insert id="requestFriend" parameterType="com.example.demo.api.VO.Notification.NotiVO">
+        INSERT INTO `TB_NOTI`
+        (
+            `PID`,
+            `NOTI_TYPE`,
+            `TITLE`,
+            `CONTENT`,
+            `UPDATE_TIME`)
+        VALUES (#{pid},
+                2,
+                #{title},
+                #{content},
+                NOW());
+    </insert>
+
+    <insert id="acceptFriend" parameterType="com.example.demo.api.VO.Friends.FriendVO">
+        INSERT INTO `TB_FRIEND`
+            (`PID1`, `PID2`) VALUES (#{pid1},#{pid2});
+    </insert>
+    <insert id="acceptFriend2" parameterType="com.example.demo.api.VO.Friends.FriendVO">
+        INSERT INTO `TB_FRIEND`
+            (`PID1`, `PID2`) VALUES (#{pid2},#{pid1});
+    </insert>
+
+
+    <delete id="deleteFriend" parameterType="com.example.demo.api.VO.Friends.FriendVO">
+        DELETE
+        FROM TB_FRIEND
+        where PID1 = #{pid1}
+          and PID2 = #{pid2};
+    </delete>
+
+    <delete id="deleteFriend2" parameterType="com.example.demo.api.VO.Friends.FriendVO">
+        DELETE
+        FROM TB_FRIEND
+        where PID1 = #{pid2}
+          and PID2 = #{pid1};
+    </delete>
+
+    <select id="loadFriendList" resultType="hashmap">
+        SELECT
+            `PID1` as pid1,
+            `PID2` as pid2,
+            `UPDATE_TIME` as update_time
+        FROM `TB_FRIEND`
+        WHERE PID1 = #{pid1};
     </select>
 </mapper>

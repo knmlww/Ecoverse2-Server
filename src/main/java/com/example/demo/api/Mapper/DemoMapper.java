@@ -1,7 +1,11 @@
 package com.example.demo.api.Mapper;
 
 import com.example.demo.api.DemoDTO.DemoDTO;
+import com.example.demo.api.VO.City.CityDataRequest;
+import com.example.demo.api.VO.City.CityDataVO;
 import com.example.demo.api.VO.City.CityVO;
+import com.example.demo.api.VO.City.ListUpCity;
+import com.example.demo.api.VO.Friends.FriendVO;
 import com.example.demo.api.VO.Map.MapVO;
 import com.example.demo.api.VO.Notification.NotiVO;
 import com.example.demo.api.VO.Profile.ProfileResponse;
@@ -43,11 +47,19 @@ public interface DemoMapper{
 
     int updatePlayerModel(ProfileVO profileVo);
 
+    int passwordReset(ProfileVO profileVo);
+
+    List<String> listUpCity(ListUpCity listUpCity);
+
     CityVO loadCity(CityVO cityVo);
 
     int uploadCity(CityVO cityVo);
 
     int updateDonation(CityVO cityVo);
+    
+    int uploadCityData(CityDataVO cityDataVo);
+
+    List<Map<String, Object>> loadCityData(CityDataRequest cityDataRequest);
 
     MapVO loadMap(MapVO MapVo);
 
@@ -56,4 +68,24 @@ public interface DemoMapper{
     List<Map<String, Object>>  loadNotiList(NotiVO notiListVo);
 
     NotiVO loadNotiDetail(NotiVO notiListVo);
+
+    int uploadNotiDetail(NotiVO notiListVo);
+
+    int deleteNoti(NotiVO notiListVo);
+
+    int updateNotiIsread(NotiVO notiListVo);
+
+    int requestFriend(NotiVO notiListVo);
+
+    int acceptFriend(FriendVO friendVo);
+
+    int acceptFriend2(FriendVO friendVo);
+
+    int deleteFriend(FriendVO friendVo);
+
+    int deleteFriend2(FriendVO friendVo);
+
+    List<Map<String, Object>> loadFriendList(FriendVO friendVo);
+
+
 }
