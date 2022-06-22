@@ -8,17 +8,18 @@ import com.example.demo.api.VO.City.ListUpCity;
 import com.example.demo.api.VO.Friends.FriendVO;
 import com.example.demo.api.VO.Map.MapVO;
 import com.example.demo.api.VO.Notification.NotiVO;
+import com.example.demo.api.VO.Profile.LoginVO;
 import com.example.demo.api.VO.Profile.ProfileResponse;
 import com.example.demo.api.VO.Profile.ProfileVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,16 @@ public class UserController {
     @PostMapping("/server_status")
     public String serverStatus() {
         return "SERVER_OK";
+    };
+
+    /**
+     * 회원가입 진행
+     * @param profileVo
+     * @return String
+     */
+    @PostMapping("/login")
+    public String Login(@RequestParam String email) {
+        return email;
     }
 
     /**
@@ -61,6 +72,13 @@ public class UserController {
         ProfileVO profileVO = (ProfileVO) authentication.getPrincipal();  //userDetail 객체를 가져옴
         return "LOGIN_SUCCESS/PID:"+profileVO.getPid();
 
+    }
+
+    @GetMapping("/access_denied")
+    public String accessDenied(HttpServletRequest request, HttpServletResponse response) {
+
+     //   System.out.println(loginVO.getEmail());
+        return "error";
     }
 
     /**

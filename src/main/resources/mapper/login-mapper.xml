@@ -3,13 +3,13 @@
 
 <mapper namespace="com.example.demo.api.Mapper.UserMapper">
     <!-- 로그인 -->
-    <select id="getUserAccount" resultType="com.example.demo.api.VO.ProfileVO">
+    <select id="getUserAccount" resultType="com.example.demo.api.VO.Profile.ProfileVO">
         SELECT * FROM Profile
         WHERE email= #{email}
     </select>
 
     <!-- 회원가입 -->
-    <insert id="saveUser" parameterType="com.example.demo.api.VO.ProfileVO">
+    <insert id="saveUser" parameterType="com.example.demo.api.VO.Profile.ProfileVO">
         INSERT INTO Profile
             (email, password, nickname)
         VALUES(#{email},#{password},#{nickname});

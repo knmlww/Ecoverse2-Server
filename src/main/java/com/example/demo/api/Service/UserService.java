@@ -9,19 +9,19 @@ import com.example.demo.api.VO.City.ListUpCity;
 import com.example.demo.api.VO.Friends.FriendVO;
 import com.example.demo.api.VO.Map.MapVO;
 import com.example.demo.api.VO.Notification.NotiVO;
+import com.example.demo.api.VO.Profile.LoginVO;
 import com.example.demo.api.VO.Profile.ProfileResponse;
 import com.example.demo.api.VO.Profile.ProfileVO;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,12 +56,25 @@ public class UserService implements UserDetailsService{
         return result;
     }
 
-    @Override
-    public ProfileVO loadUserByUsername(String email) throws UsernameNotFoundException {
-        //여기서 받은 유저 패스워드와 비교하여 로그인 인증
 
-    return demoMapper.getUserAccount(email);
-    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        LoginVO loginVO = new LoginVO();
+
+        loginVO.setEmail(email);
+
+        //여기서 받은 유저 패스워드와 비교하여 로그인 인증
+        ProfileVO profileVo = demoMapper.getUserAccount(email);
+
+        if(profileVo==null){
+           //throw new UserException("ERRORROR");
+
+           // System.out.println("Hello");
+            throw new UsernameNotFoundException("USER NOT FOUND");
+        }
+       // return demoMapper.getUserAccount(email);
+            return profileVo;
+        }
 
     /**
      * 회원탈퇴

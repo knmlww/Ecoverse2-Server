@@ -12,7 +12,7 @@
 
 	var ws;
 	function connectWs() {
-		ws = new WebSocket('ws://' + location.host + '/city');
+		ws = new WebSocket('ws://' + location.host + '/ecocity_multi');
 
 		ws.onmessage = function(data) {
 		console.dir(data);
