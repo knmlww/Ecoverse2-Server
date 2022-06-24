@@ -75,10 +75,18 @@ public class UserController {
     }
 
     @GetMapping("/access_denied")
-    public String accessDenied(HttpServletRequest request, HttpServletResponse response) {
-
+    public String accessDenied(@RequestParam String email){
+        System.out.println("email is"+email);
+        int checkEmail = userService.checkEmail(email);
      //   System.out.println(loginVO.getEmail());
-        return "error";
+        String result = "";
+        if(checkEmail==0){
+           result =   "LOGIN_FAIL_NO_EMAIL";
+        } else if (checkEmail==1) {
+            result =    "LOGIN_FAIL";
+        }
+
+        return result;
     }
 
     /**

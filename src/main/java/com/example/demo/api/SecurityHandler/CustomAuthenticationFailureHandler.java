@@ -22,38 +22,10 @@ public class CustomAuthenticationFailureHandler
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
- /*   @Override
-    public void onAuthenticationFailure(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            AuthenticationException exception)
-            throws IOException, ServletException {
-
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        if(Objects.equals(exception.getMessage(), "UserDetailsService returned null, " +
-                "which is an interface contract violation")){
-            String errorMsg = "LOGIN_FAIL_NO_EMAIL";
-            response.getOutputStream()
-                    .println(objectMapper.writeValueAsString(errorMsg));
-        } else if (Objects.equals(exception.getMessage(), "Bad credentials")) {
-            String errorMsg = "LOGIN_FAIL";
-            response.getOutputStream()
-                    .println(objectMapper.writeValueAsString(errorMsg));
-        }else{
-            String errorMsg = "LOGIN_FAIL_ETC";
-            response.getOutputStream()
-                    .println(objectMapper.writeValueAsString(errorMsg));
-        }
-
-
-    }*/
-
-
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException accessException) throws IOException, ServletException {
-
-
+        String userName = request.getParameter("email");
 
         if (accessException instanceof AuthenticationServiceException) {
             request.setAttribute("error", "존재하지 않는 사용자입니다.");
@@ -66,10 +38,13 @@ public class CustomAuthenticationFailureHandler
 
         }
 
-
+/*
         // 로그인 페이지로 다시 포워딩
         RequestDispatcher dispatcher = request.getRequestDispatcher("/access_denied");
         dispatcher.forward(request, response);
+*/
 
+        String redirectUrl = request.getContextPath() + "/access_denied?email="+userName;
+        response.sendRedirect(redirectUrl);
     }
 }

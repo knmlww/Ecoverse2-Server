@@ -77,6 +77,15 @@ public class UserService implements UserDetailsService{
         }
 
     /**
+     * 이메일 체크
+     * @param String
+     * @return 1
+     */
+    public int checkEmail(String email) {;
+        return demoMapper.checkEmail(email);
+    }
+
+    /**
      * 회원탈퇴
      * @param profileVO
      * @return 1
